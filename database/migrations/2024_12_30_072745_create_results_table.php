@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('results', function (Blueprint $table) {
             $table->id();
-            $table->string('student_id');
-            $table->string('course_code');
+            $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
+            $table->foreignId('course_id')->constrained('courses')->onDelete('cascade');
+            $table->enum('semester', ['first', 'second']);
             $table->string('grade');
+            $table->integer('marks');
             $table->timestamps();
         });
     }

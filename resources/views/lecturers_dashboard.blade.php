@@ -1,4 +1,5 @@
 @include('dashboard.header')
+
 <x-app-layout>
 
     {{-- ========= Start Content ===== --}}
@@ -49,40 +50,28 @@
     <div class="sidebar-menu">
     <ul class="menu">
         <li class="sidebar-item active ">
-            <a href="index.html" class='sidebar-link'>
+            <a href="{{route('lecturer')}}" class='sidebar-link'>
                 <i class="bi bi-grid-fill"></i>
                 <span>Lecturer Dashboard</span>
             </a>
         </li>
-        
-        <li
-            class="sidebar-item  has-sub">
-            <a href="#" class='sidebar-link'>
-                <i class="bi bi-stack"></i>
-                <span>Academic Events</span>
+      
+            <a href="{{route('results.index')}}" class='sidebar-link'>
+                <i class="fas fa-chart-line"></i>
+                <span>Manage Results</span>
             </a>
-            <ul class="submenu ">
-                <li class="submenu-item ">
-                    <a href="{{ route('lecturer.courses') }}">Manage Courses</a>
-                </li>
-                <li class="submenu-item ">
-                    <a href="{{ route('lecturer.results') }}">Manage Results</a>
-                </li>
-                <li class="submenu-item ">
-                    <a href="{{ route('lecturer.assignments') }}">Upload Assignments</a>
-                </li>
-                <li class="submenu-item ">
-                    <a href="{{ route('lecturer.notifications') }}">Send Notifications</a>
-                </li>  
-            </ul>
-        </li> 
+
+            <a href="{{ route('assignment.index') }}" class='sidebar-link'>
+                <i class="fas fa-tasks"></i>
+                <span>Upload Assignments</span>
+            </a>
         <li
         class="sidebar-item  has-sub">
         <a href="#" class='sidebar-link'>
             <i class="bi bi-stack"></i>
             <span>Academic Event</span>
         </a>
-        <ul class="submenu ">
+        {{-- <ul class="submenu ">
             <li class="submenu-item ">
                 <a href="{{route('calendar.index')}}">Clendar</a>
             </li>
@@ -93,7 +82,7 @@
             <li class="submenu-item ">
                 <a href="{{route('course.index')}}">Courses</a>
             </li>       
-        </ul>
+        </ul> --}}
     </li>        
     </ul>
     </div>
@@ -111,8 +100,8 @@
     <div class="row">
         <!-- Welcome Header -->
         <div class="col-md-12">
-            <h3 class="text-primary">Welcome, Mr. {{ Auth::user()->name }}</h3>
-            <h4 class="m-2">Here’s what’s happening in your courses today.</h4>
+            <h1 class="text-primary">Welcome, Mr. {{ Auth::user()->name }}</h1>
+            <h5 class="m-3">Here’s what’s happening in your courses today.</h5>
         </div>
         
         <!-- Metrics Cards -->
@@ -120,7 +109,6 @@
             <div class="card shadow-sm">
                 <div class="card-body text-center">
                     <h5>Courses Taught</h5>
-                    {{-- <h2>{{ $coursesCount }}</h2> --}}
                 </div>
             </div>
         </div>
@@ -128,7 +116,6 @@
             <div class="card shadow-sm">
                 <div class="card-body text-center">
                     <h5>Active Students</h5>
-                    {{-- <h2>{{ $studentsCount }}</h2> --}}
                 </div>
             </div>
         </div>
@@ -136,7 +123,6 @@
             <div class="card shadow-sm">
                 <div class="card-body text-center">
                     <h5>Pending Assignments</h5>
-                    {{-- <h2>{{ $pendingAssignments }}</h2> --}}
                 </div>
             </div>
         </div>
@@ -144,7 +130,6 @@
             <div class="card shadow-sm">
                 <div class="card-body text-center">
                     <h5>Messages</h5>
-                    {{-- <h2>{{ $unreadMessages }}</h2> --}}
                 </div>
             </div>
         </div>
@@ -158,18 +143,14 @@
                 </div>
                 <div class="card-body">
                     <ul class="list-group">
-                        {{-- @foreach($courses as $course) --}}
                             <li class="list-group-item mt-1">
-                                {{-- <strong>{{ $course->course_name}}</strong>  --}}
                                 <strong>E-Commerce</strong> <br>
-                                <strong>Web Devolopment</strong> 
-
+                                <strong>E-Government</strong> <br>
+                                <strong>Web Devolopment</strong> <br>
+                                <strong>OOP</strong> 
                                 <span class="float-end">
-                                    {{-- <a href="/courses/{{ $course->course_code}}/manage" class="btn btn-sm btn-secondary">Manage</a> --}}
-                                    <a href="{{route('lecturer.addCourse')}}" class="btn btn-sm btn-secondary">Manage</a>
                                 </span>
                             </li>
-                        {{-- @endforeach --}}
                     </ul>
                 </div>
             </div>

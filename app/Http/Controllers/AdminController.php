@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Admin;
 use App\Models\Lecturer;
+use App\Models\Course;
 use App\Models\Student;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Contracts\Validation\Rule;
@@ -126,5 +127,14 @@ public function admin_up(Request $request) {
     public function destroy(string $id)
     {
         //
+    }
+
+    public function dashboard() {
+
+        $totalStudents = Student::count();
+        $totalLecturers = Lecturer::count();
+        $totalCourses = Course::count();
+        return view('dashboard', compact('totalStudents', 'totalLecturers', 'totalCourses'));
+
     }
 }

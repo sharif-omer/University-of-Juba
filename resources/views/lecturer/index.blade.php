@@ -22,16 +22,14 @@
     });
 </script>
 @endif
-     <section>
-          <div class="card-header">
-                <a href="{{route('lecturer.create')}}" class="text-center btn btn-primary waves-effect waves-light float-end">Add Lecturers</a>
-                <a href="{{route('dashboard')}}" class="text-center btn btn-primary waves-effect waves-light">Back</a>
-          </div> 
-     <div class="card-body">
-         <table class="table" id="table1">
-                <thead>
+<div class="container"> 
+    <h2 class="text-center">Lecturers Page</h2>  
+    <div class="card mt-2">
+        <div class="card-body">
+            <table class="table" id="table1">
+                <thead class="bg-light">
                     <tr>
-                        <th>ID</th>
+                        <th>#</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Phone</th>
@@ -52,23 +50,28 @@
                                     @csrf
                                     @method('GET')
                                     <button type="submit" class="btn btn-primary sm">
-                                     <i class="fas fa-trash-alt"></i> 
+                                        <i class="fas fa-edit"></i> 
                                     </button>
-                                 </form> 
+                                </form> 
                             </td>
                             <td>
-                                <form action="{{route('lecturer.destroy', $Lecturer->id)}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this lecture ?');">
+                                <form id="delete-form-{{$Lecturer->id}}" action="{{route('lecturer.destroy', $Lecturer->id)}}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger sm">
-                                     <i class="fas fa-trash-alt"></i> 
+                                    <button type="submit" onclick="confirmDelete('delete-form-{{$Lecturer->id}}')" class="btn btn-danger">
+                                        <i class="fas fa-trash-alt"></i> 
                                     </button>
-                                 </form>                           
+                                </form> 
                             </td>                                 
                         </tr>
+                     
                         @endforeach   
-                </table>
-            </div>
-    </section>
-    @include('dashboard.footer')  
+                    </table>
+                    <a href="{{route('lecturer.create')}}" class="text-center btn btn-primary waves-effect waves-light">Add Lecturers</a>
+                    <a href="{{route('dashboard')}}" class="text-center btn btn-primary waves-effect waves-light">Back</a>
+        </div>
+    </div>
+</div>
 
+
+@include('dashboard.footer')  

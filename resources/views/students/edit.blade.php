@@ -12,14 +12,65 @@
                     <input type="text" name="name" class="form-control" id="name" value="{{ old('name', $student->name)}}">
                 </div>
 
+                   @error('name')
+                        <div class="alert alert-danger">
+                            {{$message}}
+                        </div>
+                    @enderror
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" class="form-control" value="{{old('email')}}">
+     
+                        @error('email')
+                        <div class="alert alert-danger">
+                            {{$message}}
+                        </div>
+                       @enderror
+                    </div> 
+
+                    {{-- <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" class="form-control" value="{{old('password')}}">
+    
+                        @error('password')
+                        <div class="alert alert-danger">
+                            {{$message}}
+                        </div>
+                       @enderror    
+                    </div>  --}}
+
+
                 <div class="form-group">
                     <label for="student_id">Student ID</label>
                     <input type="text" name="student_id" id="student_id" class="form-control" value="{{ old('student_id', $student->student_id)}}">
                 </div>  
+                    @error('student_id')
+                        <div class="alert alert-danger">
+                            {{$message}}
+                        </div>
+                    @enderror
+
+                                <div class="form-group">
+                    <label for="faculty">Faculty</label>
+                    <input type="text" name="faculty" id="faculty" class="form-control" value="{{old('faculty')}}">
+
+                    @error('faculty')
+                    <div class="alert alert-danger">
+                        {{$message}}
+                    </div>
+                   @enderror
+                </div>
 
                 <div class="form-group">
-                    <label for="faculty">Faculty</label>
-                    <input type="text" name="faculty" id="faculty" class="form-control" value="{{ old('faculty', $student->faculty)}}">
+                    <label for="departments">Departments</label>
+                    <input type="text" name="departments" id="departments" class="form-control" value="{{old('departments')}}">
+
+                    @error('departments')
+                    <div class="alert alert-danger">
+                        {{$message}}
+                    </div>
+                   @enderror
                 </div>
 
                 <div class="form-group">
@@ -27,15 +78,33 @@
                     <input type="" name="enrollment_year" id="enrollment_year" class="form-control" value="{{ old('enrollment_year', $student->enrollment_year)}}">
                 </div>
 
-                <div class="form-group">
-                    <label for="semester">Semester</label>
-                    <input type="" name="semester" id="semester" class="form-control" value="{{ old('semester', $student->semester)}}">
-                </div>
+                 @error('enrollment_year')
+                    <div class="alert alert-danger">
+                    {{$message}}
+                    </div>
+                 @enderror
 
                 <div class="form-group">
-                    <label for="year">Academic Year</label>
-                    <input type="" name="year" id="year" class="form-control" value="{{ old('year', $student->year)}}">
+                    <label for="current_semester">Semester</label>
+                    <input type="" name="current_semester" id="current_semester" class="form-control" value="{{ old('current_semester', $student->current_semester)}}">
                 </div>
+
+                @error('current_semester')
+                    <div class="alert alert-danger">
+                      {{$message}}
+                    </div>
+                @enderror
+
+                <div class="form-group">
+                    <label for="current_year">Academic Year</label>
+                    <input type="" name="current_year" id="current_year" class="form-control" value="{{ old('current_year', $student->current_year)}}">
+                </div>
+
+                @error('current_year')
+                <div class="alert alert-danger">
+                    {{$message}}
+                </div>
+                @enderror
               <button type="submit" class="btn btn-primary waves-effect waves-light"> Save</button>
         </form>         
     </div>

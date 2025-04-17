@@ -2,22 +2,27 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use app\Models\Department;
-use app\Models\Results;
-use app\Models\User;
-use app\Models\Courses;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+// use app\Models\Department;
+use App\Models\Result;
+use App\Models\User;
+use App\Models\Course;
 
-class student extends Model
+
+class Student extends Model
 {
+    use HasFactory;
+
+    protected $table = 'students';
     protected $fillable = [
-        'name',
+        'user_id',
         'student_id',
-        'enrollment_year',
         'faculty',
-        'semester',
-        'year',
+        'departments',
+        'current_semester',
+        'current_year',
+        'enrollment_year',
     ];
     public function user()
     {
@@ -26,15 +31,14 @@ class student extends Model
 
     public function course()
     {
-        return $this->belongsToMany(Courses::class);
+        return $this->belongsToMany(Course::class, 'course_student', 'student_id', 'course_id');
     }
 
-    public function result()
+    public function results()
     {
-        return $this->hasMany(Results::class);
+        return $this->hasMany(Result::class);
     }
 
-    use HasFactory;
     // public function department()
     //  {
     //   return 

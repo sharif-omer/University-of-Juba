@@ -10,43 +10,45 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
 use App\Models\Admin;
-use App\Models\lecturer;
-use App\Models\student;
+use App\Models\Lecturer;
+use App\Models\Student;
+use App\Models\Course;
+use App\Models\Assignment;
+use App\Models\AssignGrade;
+use App\Models\Submission;
+use App\Models\Notification;
 
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
-    // protected $guard_name = 'student';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'email',
         'password',
         'role'
     ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    
-    // Define relationships as methods
-    // public function role()
-    // {
-    //     return $this->belongsTo(Role::class);
-    // }
+//  const ROLE_ADMIN = 0;
+//  const ROLE_LECTURER = 1;
+//  const ROLE_STUDENT = 2;
+
+// public function isAdmin()
+// {
+//  return $this->role === self::ROLE_ADMIN;
+// }
+// public function isLecturer()
+// {
+//  return $this->role === self::ROLE_LECTURER;
+// }
+// public function isStudent()
+// {
+//  return $this->role === self::ROLE_STUDENT;
+// }
 
     public function student()
     {
@@ -63,7 +65,45 @@ class User extends Authenticatable
         return $this->hasOne(Admin::class);
     }
 
+    public function courses()
+    {
+        return $this->hasMany(Course::class);
+    }
+    public function gradedSubmissions()
+    {
+        return $this->hasMany(AssignGrade::class, 'lecturer_id');
+    }
 
+    public function assignments()
+    {
+        return $this->belongsToMany(Assignment::class,'assignment_students', 'student_id', 'assignment_id')->withPivot('answer', 'grade')->withTimestamps();
+    }
+    // public function assignedTasks()
+    // {
+    //     return $this->belongsToMany(Assignment::class,'assignment_students', 'student_id', 'assignment_id')->withPivot('answer', 'grade')->withTimestamps();
+    // }
+
+    public function submissions()
+    {
+        return $this->hasMany(Submission::class, 'student_id');
+    }
+
+    public function createdAssignments()
+    {
+        return $this->hasMany(Assignment::class, 'lecturer_id');
+    }
+
+    // public function notifications()
+        
+    // {
+    //     return $this->morphMany(Notification::class, 'notifiable')->orderBy('created_at', 'desc');
+    // }
+
+    // public function unreadNotifications()
+        
+    // {
+    //     return $this->morphMany(Notification::class, 'notifiable')->whereNull('read_at')->orderBy('created_at', 'desc');
+    // }
     /**
      * The attributes that should be cast.
      *

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Courses;
+use App\Models\Course;
+use App\Models\Student;
+use App\Models\User;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 
@@ -15,33 +17,31 @@ class Coursescontroller extends Controller
      */
     public function index()
     {
-        $course = Courses::all();
+        $course = Course::all();
         return view('courses.index', compact('course'));
     } // End Method
 
     public function create()
     {
-        $course = Courses::all();
-        return view('courses.create', compact('course'));
+        $students = Student::with('user')->get();
+        $course = Course::all();
+        return view('courses.create', compact('course','students'));
     } // End Method
 
-     /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request): RedirectResponse
     {
-        
         $request->validate([
-            'course_name' => 'required',
+            'name' => 'required',
             'course_code' => 'required',
             'credit_hours' => 'required',
             'fuculty' => 'required',
             'deparment' => 'required',
-            'semester' => 'required',
+            // 'user_id' => 'required|exists:users,id',
+
         ]);
 
         $course = $request->all();
-        $course = Courses::create($course);
+        $course = Course::create($course);
         return redirect()->route('course.index')
                         ->with('success','Course created successfully');
     } // End Method
@@ -52,7 +52,7 @@ class Coursescontroller extends Controller
      */
     public function edit($id): View
     {
-        $course = Courses::findOrFail($id);
+        $course = Course::findOrFail($id);
         return view('courses.edit', compact('course'));
     } // End Method
 
@@ -68,16 +68,17 @@ class Coursescontroller extends Controller
             'credit_hours' => 'required',
             'fuculty' => 'required',
             'deparment' => 'required',
-            'semester' => 'required',
+            // 'user_id' => 'required|exists:users,id',
+
         ]);
 
-        $course = Courses::findOrFail($id);
+        $course = Course::findOrFail($id);
         $course->course_name = $request->input('course_name');
         $course->course_code = $request->input('course_code');
         $course->credit_hours = $request->input('credit_hours');
         $course->fuculty = $request->input('fuculty');
         $course->deparment = $request->input('deparment');
-        $course->semester = $request->input('semester');
+        // $course->semester = $request->input('semester');
         $course->save();
         return redirect()->route('course.index')->with('success','course created successfully');
     } // End Method
@@ -87,15 +88,9 @@ class Coursescontroller extends Controller
      */
     public function destroy($id)
     {
-       $course = Courses::find($id);
+       $course = Course::find($id);
        $course->delete();
-        
-    //      $notification = array (
-    //       'message' => 'Student Deleted  Sucessfully',
-    //       'alert-type' => 'success'
-    //   );
-    //   return redirect()->back()->with($notification);
-    return redirect()->route('course.index')->with('success','course deleted successfully');
+    return redirect()->route('course.index')->with('success','Course Deleted Successfully');
     }
 
 }

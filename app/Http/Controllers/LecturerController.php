@@ -9,9 +9,12 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 use App\Models\Lecturer;
-use App\Models\Courses;
-use App\Models\Assignments;
-use App\Models\Results;
+use App\Models\Course;
+use App\Models\Assignment;
+use App\Models\User;
+use App\Models\Result;
+use App\Models\Student;
+// view()
 
 class LecturerController extends Controller
 {
@@ -39,17 +42,27 @@ class LecturerController extends Controller
     public function store(Request $request): RedirectResponse
     {
         
-        $request->validate([
-            'name' => 'required',
+        $lecturer = $request->validate([
+            'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'phone_number' => 'required',
-        ]);
+            'password' => 'required|min:8|confirmed',
+            'phone_number' => 'required|unique:lecturers,phone_number',
 
+        ]);
+        $user = User::create([
+            'name' => $lecturer['name'],
+            'email' => $lecturer['email'],
+            'password' => Hash::make($lecturer['password']),
+            'role' => 1,
+          ]);
         $lecturer = $request->all();
         $lecturer = Lecturer::create($lecturer);
         return redirect()->route('lecturer.index')
                         ->with('success','Lecturers created successfully');
     }
+
+
+
 
     /**
      * Display the specified resource.
@@ -60,23 +73,23 @@ class LecturerController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing Lecturer Info.
      */
     public function edit($id): View
     {
         $lecturer = Lecturer::findOrFail($id);
-        return view('lecturer.edit', compact('lecturer'))->with('success','Lecturers updated successfully');;
+        return view('lecturer.edit', compact('lecturer'))->with('success','Lecturers updated successfully');
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update Lecturer Info.
      */
     public function update(Request $request, $id)
     {
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
-            'phone_number' => 'required',
+            'phone_number' => 'required|unique:lecturers,phone_number',
         ]);
         $lecturer = Lecturer::findOrFail($id);
         $lecturer->name = $request->input('name');
@@ -88,50 +101,13 @@ class LecturerController extends Controller
 
     public function viewCourses()
     {
-        $courses = Courses::all();
+        $courses = Course::all();
         return view('lecturer.courses', compact('courses'));
-    }
-
-    public function addCourse(Request $request)
-    {
-        $request->validate([
-            'course_name'  => 'required|string|max:255',
-            'course_code'  => 'required|string|max:10', 
-            'credit_hours' => 'required|string|max:10',
-            'fuculty'      => 'required|string|max:10',
-            'deparment'    => 'required|string|max:255',
-            'semester'     => 'required|string|max:255',
-        ]);
-
-        // Save the course to the database
-        $courses = $request->all();
-        $courses = Courses::create($courses);
-        return back()->with('success', 'Course added successfully!');
-    }
-
-    public function viewResults()
-    {
-        $results = Results::all();
-        return view('lecturer.results', compact('results'));
-    }
-
-    public function addResult(Request $request)
-    {
-        $request->validate([
-            'student_id' => 'required|integer',
-            'course_code' => 'required|string',
-            'grade' => 'required|string|max:2',
-        ]);
-
-        // Save the result to the database
-        $results = $request->all();
-        $results = Results::create($results);
-        return back()->with('success', 'Result added successfully!');
-    }
+    } // End Method
 
     public function viewAssignments()
     {
-        $assignments = Assignments::all();
+        $assignments = Assignment::all();
         return view('lecturer.assignments', compact('assignments'));
     }
 
@@ -143,7 +119,7 @@ class LecturerController extends Controller
         ]);
 
         $assignments = $request->all();
-        $assignments = Assignments::create($assignments);
+        $assignments = Assignment::create($assignments);
         // return back()->with('success', 'Course added successfully!');
         // Store the uploaded assignment
         // $fileName = $request->file('assignment_file')->store('assignments');
@@ -182,14 +158,9 @@ class LecturerController extends Controller
      */
     public function destroy($id)
     {
-       $lecturer = Lecturer::find($id);
-       $lecturer->delete();
-        
-    //      $notification = array (
-    //       'message' => 'Student Deleted  Sucessfully',
-    //       'alert-type' => 'success'
-    //   );
-    //   return redirect()->back()->with($notification);
-    return redirect()->route('lecturer.index')->with('success','Lecturers deleted successfully');
+            $lecturer = Lecturer::findOrFail($id);
+            $lecturer->delete();
+            return redirect()->route('lecturer.index')->with('success','Lecturers Deleted Successfully!');
+            
     }
 }

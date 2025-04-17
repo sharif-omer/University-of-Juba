@@ -7,39 +7,36 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use app\Models\Lecturer;
-use app\Models\Student;
-use app\Models\Results;
+use App\Models\Student;
+use App\Models\Result;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Courses extends Model
+class Course extends Model
 {
     protected $fillable = [
-        'course_name',
+        'name',
+        'user_id',
+        // 'student_id',
         'course_code',
         'credit_hours',
         'fuculty',
         'deparment',
-        'semester',
     ];
     public function lecturer()
     {
         return
         $this->belongsTo(Lecturer::class);
     }
-    public function lectureres()
-    {
-        return
-        $this->hasMany(Lecturer::class);
-    }
     
     public function student()
     {
         return
-        $this->belongsToMany(Student::class);
+        $this->belongsToMany(Student::class, 'course_student','student_id', 'course_id');
     }
-    public function result()
+    public function results()
     {
         return
-        $this->HasMany(Results::class);
+        $this->HasMany(Result::class);
     }
 }

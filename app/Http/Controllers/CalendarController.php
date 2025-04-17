@@ -44,7 +44,7 @@ class Calendarcontroller extends Controller
         $calendar = $request->all();
         $calendar = Calendar::create($calendar);
         return redirect()->route('calendar.index')
-                        ->with('success','calendar created successfully');
+                        ->with('success','Calendar Created Successfully');
     } // End Method
 
 
@@ -83,7 +83,7 @@ class Calendarcontroller extends Controller
         $calendar->academic_year = $request->input('academic_year');
         $calendar->semester = $request->input('semester');
         $calendar->save();
-        return redirect()->route('calendar.index')->with('success','calendar created successfully');
+        return redirect()->route('calendar.index')->with('success','Calendar Updated Successfully');
     } // End Method
 
     /**
@@ -93,13 +93,7 @@ class Calendarcontroller extends Controller
     {
        $calendar = Calendar::find($id);
        $calendar->delete();
-        
-    //      $notification = array (
-    //       'message' => 'Student Deleted  Sucessfully',
-    //       'alert-type' => 'success'
-    //   );
-    //   return redirect()->back()->with($notification);
-    return redirect()->route('calendar.index')->with('success','calendar deleted successfully');
+    return redirect()->route('calendar.index')->with('success','Calendar Deleted Successfully');
     }
 
 }

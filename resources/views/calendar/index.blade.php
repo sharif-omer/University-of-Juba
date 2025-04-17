@@ -1,14 +1,36 @@
-@include('dashboard.header') 
-     <section>
-          <div class="card-header">
-              <a href="{{route('calendar.create')}}" class="text-center btn btn-primary waves-effect waves-light float-right">Create</a>
-                <a href="{{route('dashboard')}}" class="text-center btn btn-primary waves-effect waves-light float-end">Back</a>
-          </div> 
-     <div class="card-body">
+@include('dashboard.header')
+
+@if(session('success'))
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: '{{ session('success') }}',
+        timer: 3000, // Auto close after 3 seconds
+        showConfirmButton: false
+    });
+</script>
+@endif
+
+@if(session('error'))
+<script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: '{{ session('error') }}',
+        timer: 3000, // Auto close after 3 seconds
+        showConfirmButton: false
+    });
+</script>
+@endif
+<div class="container"> 
+    <h2 class="text-center">Calendar Page</h2>  
+    <div class="card mt-2">
+        <div class="card-body">
          <table class="table" id="table1">
-                <thead>
+                <thead class="bg-light">
                     <tr>
-                        {{-- <th>ID</th> --}}
+                        <th>#</th>
                         <th>Title</th>
                         <th>Description</th>
                         <th>Event Type</th>
@@ -24,7 +46,7 @@
                         @php($i = 1)
                         @foreach ($calendar as $item)
                         <tr>
-                            {{-- <td>{{$i++}}</td> --}}
+                            <td>{{$i++}}</td>
                             <td>{{$item->title}} </td>
                             <td>{{$item->description}} </td>
                             <td>{{$item->event_type}} </td>
@@ -37,33 +59,45 @@
                                     @csrf
                                     @method('GET')
                                     <button type="submit" class="btn btn-primary sm">
-                                     {{-- <i class="fas fa-trash-alt"></i>  --}}
-                                     <i class="fas fa-trash-alt">
-                                    </i> 
+                                    <i class="fas fa-edit"></i> 
                                     </button>
                                  </form> 
                             </td>
                             <td>
-                                 <form action="{{route('calendar.destroy', $item->id)}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this Calendar ?');">
+                                 <form id="delete-form-{{ $item->id }}" action="{{ route('calendar.destroy', $item->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger sm">
-                                     <i class="fas fa-trash-alt"></i> 
+                                    <button type="submit" class="btn btn-danger" onclick="confirmDelete({{ $item->id }})">
+                                        <i class="fas fa-trash-alt"></i> 
                                     </button>
-                                 </form> 
-                          </td>                                   
-                            {{-- <td>
-                                <form action="{{route('calendar.destroy', $calender->id)}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this lecture ?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger sm">
-                                     <i class="fas fa-trash-alt"></i> 
-                                    </button>
-                                 </form>                           
-                            </td>                                  --}}
+                                </form>
+                                
+                                <script>
+                                    function confirmDelete(id) {
+                                        Swal.fire({
+                                            title: 'هل أنت متأكد؟',
+                                            text: "لن تتمكن من استعادة هذا السجل!",
+                                            icon: 'warning',
+                                            showCancelButton: true,
+                                            confirmButtonColor: '#d33',
+                                            cancelButtonColor: '#3085d6',
+                                            confirmButtonText: 'نعم، احذفه!',
+                                            cancelButtonText: 'إلغاء'
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                document.getElementById('delete-form-' + id).submit();
+                                            }
+                                        });
+                                    }
+                                    </script>
+                           </td>                                   
                         </tr>
+
                         @endforeach   
                 </table>
-            </div>
-    </section>
-
+                <a href="{{route('calendar.create')}}" class="text-center btn btn-primary waves-effect waves-light">Create Calendar</a>
+                <a href="{{route('dashboard')}}" class="text-center btn btn-primary waves-effect waves-light">Back</a>
+      </div>
+  </div>
+</div>
+    @include('dashboard.footer')   

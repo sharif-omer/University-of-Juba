@@ -1,30 +1,34 @@
 
 @include('dashboard.header')
-<x-app-layout>
-<div class="container mt-4">
-    <h3>Submit Assignment</h3>
-    @if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-    @endif
+<div class="container">
 
-    <form action="{{ route('student.submitAssignment') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <div class="form-group">
-            <label for="course">Course</label>
-            <input type="text" name="course" id="course" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="file">Upload Assignment</label>
-            <input type="file" name="file" id="file" class="form-control" required>
-        </div>
-        <div>
-            <button type="submit" class="btn btn-primary mt-3">Submit</button>
-            <a href="{{route('student')}}" class="text-center btn btn-primary waves-effect waves-light mt-3">Back</a>
-        </div>
+ <h2 class="text-center my-4">My Assignment</h2>
+
+ {{-- @if($assignments->isNotEmpty()) --}}
+@foreach($assignments as $assignment)
+    <h3>{{$assignment->title}}</h3>
+    <p>{{ $assignment->description}}</p>
+    <p> Deadline: {{ $assignment->deadline }}</p>
+
+    {{-- @if(!$assignment->pivot->answer) --}}
+        <form action="{{ route('assignments.submit', $assignment->id) }}" method="POST">
+            @csrf
+            <textarea name="answer" required></textarea>
+            <button type="submit">Send</button>
+        </form>
+    {{-- @else --}}
+        <p>Answer: {{ $assignment->pivot->answer }}</p>
+        <p>Grade: {{ $assignment->pivot->grade ?? 'لم يتم التصحيح بعد' }}</p>
+    {{-- @endif --}}
+@endforeach
+{{-- @else --}}
+ {{-- <p class="alert alert-light-info">You Do not Have an Assignment!</p> --}}
+{{-- @endif --}}
+    <div>
+        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        <a href="{{route('student')}}" class="text-center btn btn-primary waves-effect waves-light mt-3">Back</a>
+    </div>
+   @include('dashboard.footer')
     </form>
 </div>
-</div>
-</x-app-layout>
 

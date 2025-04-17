@@ -16,7 +16,7 @@
     
     <li
         class="sidebar-item active ">
-        <a href="index.html" class='sidebar-link'>
+        <a href="{{route('dashboard')}}" class='sidebar-link'>
             <i class="bi bi-grid-fill"></i>
             <span>Admin Dashboard</span>
         </a>
@@ -57,14 +57,41 @@
             <a href="{{route('course.index')}}">Courses</a>
         </li>       
     </ul>
-</li>
-
-    
-
-       
-
-    
+</li>   
 </ul>
 </div>
 <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownNotifications" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fas fa-bell"></i>
+        @auth
+            @if(auth()->user()->unreadNotifications->count() > 0)
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    {{ auth()->user()->unreadNotifications->count() }}
+                    <span class="visually-hidden">unread notifications</span>
+                </span>
+            @endif
+        @endauth
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownNotifications">
+        @auth
+            @forelse(auth()->user()->unreadNotifications->take(5) as $notification)
+                <li>
+                    <a class="dropdown-item" href="{{ route('notifications.markAsRead', $notification->id) }}">
+                        <div class="d-flex justify-content-between">
+                            <span>{{ $notification->data['title'] ?? 'إشعار جديد' }}</span>
+                            <small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
+                        </div>
+                        <p class="mb-0 text-truncate" style="max-width: 250px;">{{ $notification->data['message'] }}</p>
+                    </a>
+                </li>
+            @empty
+                <li><a class="dropdown-item text-muted" href="#">لا توجد إشعارات جديدة</a></li>
+            @endforelse
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-primary" href="{{ route('notifications.index') }}">عرض جميع الإشعارات</a></li>
+        @endauth
+    </ul>
+</li>
 </div>

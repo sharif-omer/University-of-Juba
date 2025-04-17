@@ -14,19 +14,22 @@ return new class extends Migration
     public function up()
     {
         Schema::create('students', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
+            $table->id(); 
             $table->string('student_id')->unique();
             $table->string('faculty');
-            $table->string('semester');
-            $table->string('year');
-            $table->string('enrollment_year');
-            // $table->foreignId('departments')->constrained('departments');
-            $table->timestamps();
+            $table->string('departments');
+            $table->string('current_semester');
+            $table->year('enrollment_year');
+            $table->year('current_year');
+            $table->timestamps(); 
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            
+            // $table->unsignedBigInteger('user_id')->uniqid();
+
         });
     }
 
-    /**
+    /** 
      * Reverse the migrations.
      *
      * @return void
