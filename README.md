@@ -16,25 +16,35 @@ A Laravel-based web application designed to streamline academic and administrati
 
 1. Admin
    
-a. Register and manage students and lecturers
-b. Create and manage academic courses
-c. Set up and edit the academic calendar
-d. Send notifications to students and lecturers
-e. Oversee platform activities
+Register and manage students and lecturers
+
+Create and manage academic courses
+
+Set up and edit the academic calendar
+
+Send notifications to students and lecturers
+
+Oversee platform activities
 
 3. Lecturers
    
-a. Upload student results
-b. Create, assign, and grade assignments
-c. View academic calendar and platform announcements
+Upload student results
+
+Create, assign, and grade assignments
+
+View academic calendar and platform announcements
 
 3. Students
 
-a. View personal and academic information
-b. Access grades and performance reports
-c. Receive notifications from admin
-d. Track academic calendar
-e. Request technical or academic support
+View personal and academic information
+
+Access grades and performance reports
+
+Receive notifications from admin
+
+Track academic calendar
+
+Request technical or academic support
 
 
 Installation
