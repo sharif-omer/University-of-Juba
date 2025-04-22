@@ -72,16 +72,16 @@ php artisan serve
 
 Roadmap
 
-[x] Admin/Student/Lecturer authentication
+- Admin/Student/Lecturer authentication
 
-[x] Admin management of users and courses
+- Admin management of users and courses
 
-[x] Academic calendar module
+- Academic calendar module
 
-[x] Notification system
+- Notification system
 
-[x] Assignment and grading system
+- Assignment and grading system
 
-[ ] Student support ticketing
+- Student support ticketing
 
 
