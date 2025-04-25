@@ -1,7 +1,5 @@
 @include('dashboard.header')
-<div class="card-header">
-    <h2 class="card-title text-center">Create New Assignmen</h2>
-</div>
+    <h2 class="text-center">Create New Assignmen</h2>
 
  <div class="d-flex justify-content-center vh-100">
     <div class="p-4" style="width: 500px;">
@@ -12,7 +10,7 @@
     <input type="text" name="title" class="form-control" id="title" required value="{{old('title')}}">
 
     <label for="description">Description:</label>
-    <textarea name="description" class="form-control" id="description" required></textarea>
+    <textarea name="description" class="form-control" id="description"  required></textarea>
 
     <label for="deadline">Deadline:</label>
     <input type="date" name="deadline" class="form-control" id="deadline" required value="{{old('deadline')}}">
@@ -24,10 +22,8 @@
         @endforeach
     </select>
 
-    <div class="text-center mt-2">
-        <button type="submit" class="btn btn-primary waves-effect waves-light"> Save</button>
-        <a href="{{route('lecturer')}}" class="btn btn-primary waves-effect waves-light">Back</a>
-    </div>
+        <button type="submit" class="btn btn-primary waves-effect waves-light mt-2"> Save</button>
+        <a href="{{route('lecturer')}}" class="btn btn-primary waves-effect waves-light mt-2">Back</a>
 </form>
     </div>
  </div>

@@ -1,10 +1,10 @@
 @include('dashboard.header')
 <div class="container">
-    <h3 class="text-center my-4">Student Results: <span class="text-primary">{{Auth::user()->name}}</span></h3>
+    <h3 class="text-center my-4">Student Name: <span class="text-primary">{{Auth::user()->name}}</span></h3>
     <div class="table-responsive">
         @if($hasResults)
     <table class="table table-bordered table-striped">
-        <thead class="table-dark text-center">
+        <thead class="table-dark">
             <tr>
                 <th>#</th>
                 <th>Course Name</th>
@@ -18,7 +18,7 @@
             @php($i = 1)
             
             @foreach ($student->results as $result)
-            <tr class="text-center">
+            <tr class="">
                 <td>{{$i++}}</td>
                 <td>{{$result->course->name}}</td>
                 <td>{{$result->course->course_code}}</td>
@@ -88,8 +88,8 @@
       </div>
     </div>
 </div>
+<a class="btn btn-primary waves-effect waves-light" href="{{route('student')}}">Back</a>
 @else
 <div class="alert alert-info text-center">You Do Not Have a Result Now</div>
 @endif
-        <a class="btn btn-primary waves-effect waves-light" href="{{route('student')}}">Back</a>
 </div>

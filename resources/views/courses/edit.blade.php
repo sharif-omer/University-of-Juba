@@ -1,8 +1,6 @@
 @include('dashboard.header')
-        <div class="card-header">
-            <h2 class="card-title text-center">Update {{$course->course_name}} Course</h2>
-        </div>
 
+<h2 class="text-center mt-1">Update <span class="text-info"> {{$course->name}}</span> Course</h2>
 <div class="d-flex justify-content-center vh-100">
     <div class="p-4" style="width: 500px;">
         <form method="POST" action="{{route('course.update', $course->id)}}">
@@ -10,7 +8,7 @@
             @method('PUT')
                 <div class="form-group">
                     <label for="course_name">Course Name</label>
-                    <input type="text" name="course_name" class="form-control" id="course_name" value="{{ old('course_name', $course->course_name)}}">
+                    <input type="text" name="course_name" class="form-control" id="course_name" value="{{ old('course_name', $course->name)}}">
                 </div>
 
                 <div class="form-group">
@@ -33,10 +31,10 @@
                     <input type="text" name="deparment" id="deparment" class="form-control" value="{{ old('deparment', $course->deparment)}}">
                 </div>
 
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label for="semester">Semester</label>
                     <input type="text" name="semester" id="semester" class="form-control" value="{{ old('semester', $course->semester)}}">
-                </div>
+                </div> --}}
               
               <div class="text-center">
                 <button type="submit" class="btn btn-primary waves-effect waves-light"> Save</button>

@@ -1,7 +1,7 @@
 @include('dashboard.header')
 
 <div class="container">
-    <h1 class="text-center">My Assignment</h1>
+    <h1 class="text-center">Your Assignment</h1>
     
     @if(session('success'))
         <div class="alert alert-success">
@@ -27,6 +27,7 @@
                     {{ $assignment->submissions->isNotEmpty() ? 'Show Assignment' : ' Anwser' }}
                 </a>
             </div>
+           
         @endforeach
     </div>
     <a class="btn btn-primary mt-2" href="{{route('student')}}">Back</a>

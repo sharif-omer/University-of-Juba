@@ -37,7 +37,7 @@
                 <i class="fas fa-tasks"></i>
                 <span>Assignments</span>
             </a>
-            <a href="{{ route('student.calendar') }}" class='sidebar-link'>
+            <a href="{{ route('calendar.index') }}" class='sidebar-link'>
                 <i class="fas fa-calendar-alt"></i>
                 <span>Academic Calendar</span>
             </a>

@@ -44,40 +44,41 @@
         
               <!-- Stats Cards -->
               <div class="row">
-                <div class="col-md-3 text-center">
+                   <!-- Student Col -->
+                <div class="col-12 col-md-6 col-lg-3 text-center">
                   <div class="card text-white bg-primary mb-3">
                     <div class="card-body">
                       <h5 class="card-title">Total Students</h5>
-                      {{-- <p><i class="fa fa-user-graduate"></i>
-                      </p> --}}
                       <p class="card-text fs-4">{{$studentCount}}</p>
                     </div>
                   </div>
                 </div>
-                <div class="col-md-3 text-center">
+
+                   <!-- Lecturers Col -->
+                <div class="col-12 col-md-6 col-lg-3 text-center">
                   <div class="card text-white bg-success mb-3">
                     <div class="card-body">
                       <h5 class="card-title">Total Lecturers</h5>
-                      {{-- <p><i class="fa fa-chalkboard-teacher"></i> --}}
                       <p class="card-text fs-4">{{$lecturerCount}}</p>
                     </div>
                   </div>
                 </div>
-                <div class="col-md-3 text-center">
+
+                  <!-- Faculites Col -->
+                <div class="col-12 col-md-6 col-lg-3 text-center">
                   <div class="card text-white bg-danger mb-3">
                     <div class="card-body">
                       <h5 class="card-title">Faculites</h5>
-                      {{-- <p><i class="fa fa-university"></i></p> --}}
-                      <p class="card-text fs-4">08</p>
+                      <p class="card-text fs-4">8</p>
                     </div>
                   </div>
                 </div>
-                <div class="col-md-3">
+
+                 <!-- Courses Col -->
+                <div class="col-12 col-md-6 col-lg-3">
                   <div class="card text-white bg-warning mb-3 text-center">
                     <div class="card-body">
                       <h5 class="card-title">Courses</h5>
-                      {{-- <p><i class="fa fa-book-open"></i>
-                      </p> --}}
                       <p class="card-text fs-4 ">{{$courseCount}}</p>
                     </div>
                   </div>

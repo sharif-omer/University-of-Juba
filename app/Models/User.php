@@ -33,23 +33,6 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-//  const ROLE_ADMIN = 0;
-//  const ROLE_LECTURER = 1;
-//  const ROLE_STUDENT = 2;
-
-// public function isAdmin()
-// {
-//  return $this->role === self::ROLE_ADMIN;
-// }
-// public function isLecturer()
-// {
-//  return $this->role === self::ROLE_LECTURER;
-// }
-// public function isStudent()
-// {
-//  return $this->role === self::ROLE_STUDENT;
-// }
-
     public function student()
     {
         return $this->hasOne(Student::class);

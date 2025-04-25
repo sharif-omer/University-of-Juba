@@ -62,7 +62,7 @@ class Coursescontroller extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
+      $updated =  $request->validate([
             'course_name' => 'required',
             'course_code' => 'required',
             'credit_hours' => 'required',
@@ -73,13 +73,8 @@ class Coursescontroller extends Controller
         ]);
 
         $course = Course::findOrFail($id);
-        $course->course_name = $request->input('course_name');
-        $course->course_code = $request->input('course_code');
-        $course->credit_hours = $request->input('credit_hours');
-        $course->fuculty = $request->input('fuculty');
-        $course->deparment = $request->input('deparment');
-        // $course->semester = $request->input('semester');
-        $course->save();
+        $course->update($updated);
+
         return redirect()->route('course.index')->with('success','course created successfully');
     } // End Method
 

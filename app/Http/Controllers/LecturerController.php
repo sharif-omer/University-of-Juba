@@ -86,16 +86,13 @@ class LecturerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
+      $updatedinfo =  $request->validate([
+            // 'name' => 'required',
+            // 'email' => 'required|email|unique:users,email',
             'phone_number' => 'required|unique:lecturers,phone_number',
         ]);
         $lecturer = Lecturer::findOrFail($id);
-        $lecturer->name = $request->input('name');
-        $lecturer->email = $request->input('email');
-        $lecturer->phone_number = $request->input('phone_number');
-        $lecturer->save();
+        $lecturer->update($updatedinfo);
         return redirect()->route('lecturer.index')->with('success','Lecturers updated successfully');
     } // End Method
 

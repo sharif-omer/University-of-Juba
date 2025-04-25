@@ -71,18 +71,6 @@
             <i class="bi bi-stack"></i>
             <span>Academic Event</span>
         </a>
-        {{-- <ul class="submenu ">
-            <li class="submenu-item ">
-                <a href="{{route('calendar.index')}}">Clendar</a>
-            </li>
-            <li class="submenu-item ">
-                <a href="#">Time Table</a>
-            </li>  
-    
-            <li class="submenu-item ">
-                <a href="{{route('course.index')}}">Courses</a>
-            </li>       
-        </ul> --}}
     </li>        
     </ul>
     </div>
@@ -105,28 +93,28 @@
         </div>
         
         <!-- Metrics Cards -->
-        <div class="col-md-3">
+        <div class="col-12 col-md-6 col-lg-3 mb-1">
             <div class="card shadow-sm">
                 <div class="card-body text-center">
                     <h5>Courses Taught</h5>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-12 col-md-6 col-lg-3 mb-1">
             <div class="card shadow-sm">
                 <div class="card-body text-center">
                     <h5>Active Students</h5>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-12 col-md-6 col-lg-3 mb-1">
             <div class="card shadow-sm">
                 <div class="card-body text-center">
                     <h5>Pending Assignments</h5>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-12 col-md-6 col-lg-3 mb-1">
             <div class="card shadow-sm">
                 <div class="card-body text-center">
                     <h5>Messages</h5>
@@ -138,7 +126,7 @@
         <div class="col-md-8 mt-4">
             <!-- Courses List -->
             <div class="card">
-                <div class="card-header bg-primary text-white">
+                <div class="card-header bg-primary text-white text-center">
                     Your Courses
                 </div>
                 <div class="card-body">
@@ -159,7 +147,7 @@
         <!-- Calendar Section -->
         <div class="col-md-4 mt-4">
             <div class="card">
-                <div class="card-header bg-primary text-white">
+                <div class="card-header bg-primary text-white text-center">
                     Schedule
                 </div>
                 <div class="card-body mt-1">

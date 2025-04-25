@@ -10,6 +10,7 @@ use App\Models\Submission;
 use App\Models\Course;
 use App\Models\Result;
 use App\Models\User;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -84,10 +85,8 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:users,email',
-            'password' => 'required|min:8|confirmed',
+        
+       $validated = $request->validate([
             'student_id' => 'required',
             'enrollment_year' => 'required',
             'faculty' => 'required',
@@ -96,17 +95,9 @@ class StudentController extends Controller
             'current_year' => 'required',
         ]);
         $student = Student::findOrFail($id);
-        $student->name = $request->input('name');
-        $student->email = $request->input('email');
-        $student->password = $request->input('password');
-        $student->student_id = $request->input('student_id');
-        $student->enrollment_year = $request->input('enrollment_year');
-        $student->faculty = $request->input('faculty');
-        $student->departments = $request->input('departments');
-        $student->current_semester = $request->input('current_semester');
-        $student->current_year = $request->input('current_year');
-        $student->save();
-        return redirect()->route('student.index')->with('success','student Updated Successfully');
+        $student->update($validated);
+      
+        return redirect()->route('student.index')->with('success','Student Information Updated Successfully');
     }
 
     /**
@@ -168,76 +159,80 @@ public function submitSupport(Request $request)
 }
 
  /**===== About Student Results ====== */
-    public function showResults(Student $student)
-    {
-        if(!Auth::check()) {
-            return redirect()->route('login');
-        }
-        $user = Auth::user();
-        $student = $user->student;
-        // chek if student
-        if(Auth::user()->student->id !== $student->id){
-            abort(403); // Unaithorized
-        }
-       $student->load('results.course');
-
+ public function showResults(Student $student)
+ {
+     if (!Auth::check()) {
+         return redirect()->route('login');
+     }
  
-    // جدول تحويل الدرجات إلى نقاط
-    $gradePoints = [
-        'A' => 4.0,
-        'B+' => 3.8,
-        'B' => 3.5,
-        'C+' => 3.0,
-        'C' => 2.5,
-        'D+' => 2.0,
-        'D' => 1.5,
-        'F' => 0.0,
-    ];
-
-    // تقسيم النتائج إلى فصلين (يمكن تعديل هذا الجزء حسب هيكل بياناتك)
-    $semester1 = $student->results->where('semester', 'first'); // update remove ->toArray()
-    $semester2 = $student->results->where('semester', 'second');
-
-    // دالة لحساب المعدل الفصلي
-    function calculateSemesterGPA($courses, $gradePoints) {
-        $totalWeightedPoints = 0;
-        $totalCreditHours = 0;
-
-        foreach ($courses as $course) {
-            $grade = $course->grade; // remove []
-            $creditHours = $course->course->credit_hours; //remove [''] عدد الساعات المعتمدة من الجدول المرتبط
-            if(isset($gradePoints[$grade])) {
-                $totalWeightedPoints += $gradePoints[$grade] * $creditHours;
-                $totalCreditHours += $creditHours;
-            }
-            
-        }
-
-        return $totalCreditHours > 0 ? $totalWeightedPoints / $totalCreditHours : 0;
-    }
-
-    // حساب المعدل الفصلي لكل فصل
-    $semester1GPA = calculateSemesterGPA($semester1, $gradePoints);
-    $semester2GPA = calculateSemesterGPA($semester2, $gradePoints);
-
-    $totalSemeester1Courses = $semester1->count();
-    $totalSemeester2Courses = $semester2->count();
-    $totalCourses = $totalSemeester1Courses + $totalSemeester2Courses;
-
-    $cumulativeGPA = 0;
-    if($totalCourses > 0) {
-      $cumulativeGPA = ($semester1GPA * $totalSemeester1Courses + $semester2GPA * $totalSemeester2Courses / $totalCourses);  
-    }
-    
-    // تمرير المتغيرات إلى الـ View
-    return view('student.results', [
-        'student' => $student,
-        'semester1GPA'  => $semester1GPA,
-        'semester2GPA'  => $semester2GPA,
-        'cumulativeGPA' => $cumulativeGPA,
-        'hasResults' => $totalCourses > 0
-    ]);
-}
+     $user = Auth::user();
+     $student = $user->student;
+ 
+     // التحقق من أن الطالب هو نفسه المسجل
+     if ($user->student->id !== $student->id) {
+         abort(403);
+     }
+ 
+     $student->load('results.course');
+ 
+     // جدول تحويل الدرجات إلى نقاط
+     $gradePoints = [
+         'A' => 4.0,
+         'B+' => 3.8,
+         'B' => 3.5,
+         'C+' => 3.0,
+         'C' => 2.5,
+         'D+' => 2.0,
+         'D' => 1.5,
+         'F' => 0.0,
+     ];
+ 
+     // تقسيم النتائج إلى فصلين
+     $semester1 = $student->results->where('semester', 'first');
+     $semester2 = $student->results->where('semester', 'second');
+ 
+     // دالة لحساب المعدل الفصلي وإجمالي الساعات
+     function calculateSemesterData($courses, $gradePoints)
+     {
+         $totalWeightedPoints = 0;
+         $totalCreditHours = 0;
+ 
+         foreach ($courses as $course) {
+             $grade = $course->grade;
+             $creditHours = $course->course->credit_hours;
+             if (isset($gradePoints[$grade])) {
+                 $totalWeightedPoints += $gradePoints[$grade] * $creditHours;
+                 $totalCreditHours += $creditHours;
+             }
+         }
+ 
+         $gpa = $totalCreditHours > 0 ? $totalWeightedPoints / $totalCreditHours : 0;
+ 
+         return [
+             'gpa' => $gpa,
+             'totalHours' => $totalCreditHours,
+             'totalPoints' => $totalWeightedPoints
+         ];
+     }
+ 
+     // حساب بيانات الفصلين
+     $semester1Data = calculateSemesterData($semester1, $gradePoints);
+     $semester2Data = calculateSemesterData($semester2, $gradePoints);
+ 
+     $totalCreditHours = $semester1Data['totalHours'] + $semester2Data['totalHours'];
+     $totalWeightedPoints = $semester1Data['totalPoints'] + $semester2Data['totalPoints'];
+ 
+     // المعدل التراكمي
+     $cumulativeGPA = $totalCreditHours > 0 ? $totalWeightedPoints / $totalCreditHours : 0;
+ 
+     return view('student.results', [
+         'student' => $student,
+         'semester1GPA' => $semester1Data['gpa'],
+         'semester2GPA' => $semester2Data['gpa'],
+         'cumulativeGPA' => $cumulativeGPA,
+         'hasResults' => $totalCreditHours > 0
+     ]);
+ }
 
 
  /**===== About Student Assignments ====== */
@@ -298,7 +293,7 @@ public function submitSolution(Request $request, Assignment $assignment)
     );
 
     return redirect()->route('student.assignments')
-        ->with('success', 'تم تسليم المهمة بنجاح');
+        ->with('success', 'assignments Submited Successfuly'  );
 }
 
 

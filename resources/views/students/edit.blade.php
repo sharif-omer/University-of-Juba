@@ -1,46 +1,11 @@
 @include('dashboard.header')
-        <div class="card-header">
-            <h2 class="card-title text-center">Update {{$student->name}} Information</h2>
-        </div>
+            <h2 class="text-center">Update <span class="text-info">{{$student->user->name}}</span> Information</h2>
 <div class="d-flex justify-content-center vh-100">
     <div class="p-4" style="width: 500px;">
         <form method="POST" action="{{route('student.update', $student->id)}}">
             @csrf
             @method('PUT')
-                <div class="form-group">
-                    <label for="name">Student Name</label>
-                    <input type="text" name="name" class="form-control" id="name" value="{{ old('name', $student->name)}}">
-                </div>
-
-                   @error('name')
-                        <div class="alert alert-danger">
-                            {{$message}}
-                        </div>
-                    @enderror
-
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" name="email" id="email" class="form-control" value="{{old('email')}}">
-     
-                        @error('email')
-                        <div class="alert alert-danger">
-                            {{$message}}
-                        </div>
-                       @enderror
-                    </div> 
-
-                    {{-- <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" name="password" id="password" class="form-control" value="{{old('password')}}">
-    
-                        @error('password')
-                        <div class="alert alert-danger">
-                            {{$message}}
-                        </div>
-                       @enderror    
-                    </div>  --}}
-
-
+               
                 <div class="form-group">
                     <label for="student_id">Student ID</label>
                     <input type="text" name="student_id" id="student_id" class="form-control" value="{{ old('student_id', $student->student_id)}}">
@@ -53,7 +18,7 @@
 
                                 <div class="form-group">
                     <label for="faculty">Faculty</label>
-                    <input type="text" name="faculty" id="faculty" class="form-control" value="{{old('faculty')}}">
+                    <input type="text" name="faculty" id="faculty" class="form-control" value="{{old('faculty', $student->faculty)}}">
 
                     @error('faculty')
                     <div class="alert alert-danger">
@@ -64,7 +29,7 @@
 
                 <div class="form-group">
                     <label for="departments">Departments</label>
-                    <input type="text" name="departments" id="departments" class="form-control" value="{{old('departments')}}">
+                    <input type="text" name="departments" id="departments" class="form-control" value="{{old('departments', $student->departments)}}">
 
                     @error('departments')
                     <div class="alert alert-danger">
@@ -106,6 +71,7 @@
                 </div>
                 @enderror
               <button type="submit" class="btn btn-primary waves-effect waves-light"> Save</button>
+              <a href="{{route('student.index')}}"  class="btn btn-primary waves-effect waves-light">Back</a>
         </form>         
     </div>
 </div>

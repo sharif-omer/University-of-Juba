@@ -1,8 +1,5 @@
 @include('dashboard.header')
-
-<div class="card-header">
-    <h2 class="card-title text-center">Create Lecturer</h2>
-</div>
+    <h2 class="text-center">Create Lecturer</h2>
 <div class="d-flex justify-content-center vh-100">
    <div class="p-4" style="width: 500px;">
         <form method="POST" action="{{route('lecturer.store')}}">
@@ -62,10 +59,8 @@
                 </div>
                @enderror
 
-                <div class="text-center">
                     <button type="submit" class="btn btn-primary waves-effect waves-light"> Save</button>
                     <a href="{{route('lecturer.index')}}" class="btn btn-primary waves-effect waves-light">Back</a>
-                </div>
         </form>  
     </div>      
 </div>

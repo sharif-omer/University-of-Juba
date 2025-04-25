@@ -59,18 +59,14 @@ public function edit($id): View
 
 public function update(Request $request, $id)
 {
-    $request->validate([
+   $updateAssignment  = $request->validate([
         'title' => 'required|string',
         'description' => 'required|string',
         'deadline' => 'required|date',
-        'students' => 'required|array',
     ]);
 
     $assignment = Assignment::findOrFail($id);
-    $assignment->title = $request->input('title');
-    $assignment->description = $request->input('description');
-    $assignment->deadline = $request->input('deadline');
-    $assignment->save();
+    $assignment->update($updateAssignment);
     return redirect()->route('assignment.index')->with('success','Assignment Updated Successfully');
 
 }

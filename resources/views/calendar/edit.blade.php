@@ -1,6 +1,6 @@
 @include('dashboard.header')
         
-            <h2 class="card-header text-center">Update {{$calendar->title}} Information</h2>
+            <h2 class="text-center">Update <span class="text-info">{{$calendar->title}}</span>  Information</h2>
         
 <div class="d-flex justify-content-center vh-100">
     <div class="p-4" style="width: 500px;">
@@ -44,6 +44,7 @@
                 </div>
               
               <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
+              <a class="btn btn-primary waves-effect waves-light" href="{{route('calendar.index')}}">Back</a>
         </form>        
     </div>
 </div>

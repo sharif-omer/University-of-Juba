@@ -121,10 +121,8 @@
                    @enderror
                 </div>
               
-              <div class="text-center">
                 <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
                 <a href="{{route('student.index')}}" class="btn btn-primary waves-effect waves-light">Back</a>
-            </div>
         </form>           
     </div>
 </div>

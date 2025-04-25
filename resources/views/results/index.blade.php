@@ -34,6 +34,7 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Student Name</th>
                             <th>Student Id</th>
                             <th>Course Name</th>
                             <th>Course Code</th>
@@ -50,6 +51,7 @@
                         @foreach ($result as $results)
                         <tr>
                             <td>{{$i++}}</td>
+                            <td>{{$results->student->user->name}} </td>
                             <td>{{$results->student->student_id}} </td>
                             <td>{{$results->course->name}} </td>
                             <td>{{$results->course->course_code}} </td>
