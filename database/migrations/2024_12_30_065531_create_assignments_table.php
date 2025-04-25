@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->dateTime('deadline');
+            $table->date('deadline');
             $table->foreignId('lecturer_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
 

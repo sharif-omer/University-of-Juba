@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->dateTime('start_time');
-            $table->dateTime('end_time');
+            $table->date('start_time');
+            $table->date('end_time');
             $table->string('event_type');  // ['Exam', 'Lecture', 'Holiday', 'Other']
             $table->string('academic_year',20);
             $table->string('semester'); //  ['First', 'Second', 'Summer'] 

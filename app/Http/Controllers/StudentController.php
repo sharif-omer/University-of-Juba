@@ -9,6 +9,7 @@ use App\Models\Assignment;
 use App\Models\Submission;
 use App\Models\Course;
 use App\Models\Result;
+use App\Models\Calendar;
 use App\Models\User;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
@@ -114,10 +115,10 @@ class StudentController extends Controller
 
    
 
-    public function showAssignments()
-{
-    return view('student.assignments');
-}
+//     public function showAssignments()
+// {
+//     return view('student.assignments');
+// }
 
     public function myCourses()
     {
@@ -127,16 +128,10 @@ class StudentController extends Controller
     
         return response()->json($courses);
     }
-    public function showProfile()
+    public function showCalendar()
     {
-        $profile = [
-            'name' => 'John Doe',
-            'student_id' => '123456',
-            'department' => 'Computer Science',
-            'year' => 'Final Year',
-        ];
-    
-        return view('student.profile', compact('profile'));
+        $calendars = Calendar::all();
+        return view('student.calendar', compact('calendars'));
     }
         // Fetch academic details
 

@@ -1,43 +1,30 @@
 @include('dashboard.header') 
-@if(session('success'))
-<script>
-    Swal.fire({
-        icon: 'success',
-        title: 'Success',
-        text: '{{ session('success') }}',
-        timer: 3000, // Auto close after 3 seconds
-        showConfirmButton: false
-    });
-</script>
-@endif
 
-@if(session('error'))
-<script>
-    Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: '{{ session('error') }}',
-        timer: 3000, // Auto close after 3 seconds
-        showConfirmButton: false
-    });
-</script>
-@endif
 <div class="container mt-4">
-    <h3>Academic Calendar</h3>
+    <h3 class="text-center">Academic Calendar</h3>
 
      <div class="card-body">
          <table class="table" id="table1">
-                <thead>
+                <thead class="bg-light">
                     <tr>
-                            <th>Date</th>
-                            <th>Event</th>
+                            <th>#</th>
+                            <th>title</th>
+                            <th>description</th>
+                            <th>Event Type</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
                     </tr>
                 </thead>
                 <tbody>
-                        @foreach($events as $event)
+                     @php($i = 1)
+                        @foreach($calendars as $calendar)
                         <tr>
-                            <td>{{ $event['date'] }}</td>
-                            <td>{{ $event['event'] }}</td>
+                            <td>{{$i++}}</td>
+                            <td>{{$calendar->title }}</td>
+                            <td>{{$calendar->description }}</td>
+                            <td>{{$calendar->event_type }}</td>
+                            <td>{{$calendar->start_time }}</td>
+                            <td>{{$calendar->end_time }}</td>
                         </tr>
                         @endforeach   
                 </tbody>
